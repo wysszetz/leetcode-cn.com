@@ -11,15 +11,48 @@
 
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"strconv"
+)
 
 func addBinary(a string, b string) string {
-	return ""
+	var (
+		newBinary = ""
+		carry     int
+		flag      int
+	)
+	aLen, bLen := len(a)-1, len(b)-1
+
+	for aLen >= 0 || bLen >= 0 {
+		aInt, bInt := 0, 0
+		if aLen >= 0 {
+			aInt = int(a[aLen] - '0')
+		}
+		if bLen >= 0 {
+			bInt = int(b[bLen] - '0')
+		}
+		carry = aInt + bInt + flag
+		flag = 0
+		if carry >= 2 {
+			flag = 1
+			carry = carry - 2
+		}
+
+		newBinary = strconv.Itoa(carry) + newBinary
+
+		aLen--
+		bLen--
+	}
+	if flag == 1 {
+		newBinary = strconv.Itoa(flag) + newBinary
+	}
+	return newBinary
 }
 
 func main() {
-	a := ""
-	b := ""
+	a := "11"
+	b := "1"
 	res := addBinary(a, b)
 	fmt.Println(res)
 }
